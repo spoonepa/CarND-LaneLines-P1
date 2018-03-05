@@ -1,47 +1,45 @@
-# **Finding Lane Lines on the Road** 
 
-## Writeup Template
-
-### You can use this file as a template for your writeup if you want to submit it as a markdown file. But feel free to use some other method and submit a pdf if you prefer.
-
----
-
-**Finding Lane Lines on the Road**
-
-The goals / steps of this project are the following:
-* Make a pipeline that finds lane lines on the road
-* Reflect on your work in a written report
+# Finding Lane Lines on the Road
+***
+##Pipeline
+The purpose of the pipeline is to compose several different operations together, apply them to an image, and produce an annotated image that shows where a lane on a road would be.
 
 
-[//]: # (Image References)
+* Canny Edge detection
+* Identify regions to detect lines
+* Hough transform to detect the lines
+* Remove noise and draw the lanes by  extrapolating the lines identified
 
-[image1]: ./examples/grayscale.jpg "Grayscale"
+##Canny Edge Detection
 
----
+ In canny Edge detection low thresold of 50 and high thresold of 150 is used.
 
-### Reflection
+##Hough Transform to detect lines
 
-### 1. Describe your pipeline. As part of the description, explain how you modified the draw_lines() function.
+ 	The hough transform is used with thresold of 15 , min_line_length of 40 and max_line_gap of 150
+##Draw lines
 
-My pipeline consisted of 5 steps. First, I converted the images to grayscale, then I .... 
+ * To draw the line the hough lines are dvided to left or right based on their coordinates
+ * Then the noise are removed based on slope falling two standard deviation from the median.
+ * Then the line are extended based on the start and end line segment.
 
-In order to draw a single line on the left and right lanes, I modified the draw_lines() function by ...
+ The result of images are 
 
-If you'd like to include images to show how the pipeline works, here is how to include an image: 
+SolidWhiteCurve: 
+![SolidWhiteCurve](test_images_output/solidWhiteCurve.jpg)
+solidWhiteRight: 
+![solidWhiteRight](test_images_output/solidWhiteRight.jpg)
+solidYellowCurve: 
+![solidYellowCurve](test_images_output/solidYellowCurve.jpg)
+solidYellowCurve2: 
+![solidYellowCurve2](test_images_output/solidYellowCurve2.jpg)
+solidYellowLeft: 
+![solidYellowLeft](test_images_output/solidYellowLeft.jpg)
+whiteCarLaneSwitch: 
+![whiteCarLaneSwitch](test_images_output/whiteCarLaneSwitch.jpg)
 
-![alt text][image1]
+## To imporve the performance
 
-
-### 2. Identify potential shortcomings with your current pipeline
-
-
-One potential shortcoming would be what would happen when ... 
-
-Another shortcoming could be ...
-
-
-### 3. Suggest possible improvements to your pipeline
-
-A possible improvement would be to ...
-
-Another potential improvement could be to ...
+* Can improve on filtering mecanisms of the lines should look at line postions also and not just the slope.
+* The mask logic to change and currently hardcoded.
+* In videos should look at previous line and use it when drawing the current frame line.
